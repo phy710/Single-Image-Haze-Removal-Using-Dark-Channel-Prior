@@ -28,7 +28,7 @@ function [dehazedImg, darkChannel, transmission] = dehaze(img)
     [row, col] = find(brightestPixels==max(brightestPixels(:)), 1);
     atmosphericLight = img(row, col, :);
     % calculate the transmission
-    transmission = 1 - omiga*darkChannel/atmosphericLight;
+    transmission = 1 - min(omiga*img./atmosphericLight, [], 3);
     % perform guided filter on the transmission
     r = 80;
     regularization = 0.01;
