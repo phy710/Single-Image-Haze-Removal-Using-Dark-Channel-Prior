@@ -25,7 +25,8 @@ function [dehazedImg, darkChannel, transmission] = dehaze(img)
     brightestPixels = light;
     brightestPixels(darkChannel<threshold) = 0;
     % choose the largest light from these pixels as atmospheric light
-    atmosphericLight = max(brightestPixels(:));
+    [row, col] = find(brightestPixels==max(brightestPixels(:)), 1);
+    atmosphericLight = img(row, col, :);
     % calculate the transmission
     transmission = 1 - omiga*darkChannel/atmosphericLight;
     % perform guided filter on the transmission
